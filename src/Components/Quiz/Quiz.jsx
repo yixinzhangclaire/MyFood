@@ -32,36 +32,71 @@ const Quiz = () => {
     };
 
     const calculateRecommendations = () => {
-        const budget = scores.filter((score) => typeof score === 'number' && score <= 50).reduce((a, b) => a + b, 0);
-        const foodType = scores.find((score) => typeof score === 'string' && ['comfort', 'healthy', 'international', 'sweet'].includes(score));
-        const mood = scores.find((score) => ['adventurous', 'relaxed', 'indulgent', 'efficient'].includes(score));
-        const location = scores.find((score) => ['McIntyre', 'McLennan', 'Trottier', 'Burnside'].includes(score));
-        const eatingTime = scores.find((score) => typeof score === 'number' && score >= 10); // Duration
-
-        // Define priority recommendations
-        let recommendation = '';
-
-        // Location-based priority
-        if (location === 'McIntyre') recommendation = 'Visit the McIntyre cafe for quick and easy bites.';
-        else if (location === 'McLennan') recommendation = 'McLennan-Redpath cafe has snacks and coffee perfect for a study break.';
-        else if (location === 'Trottier') recommendation = 'Trottier cafe has great pastry and meal options.';
-        else if (location === 'Burnside') recommendation = 'Burnside cafe is ideal for a peaceful meal or coffee.';
-
-        // Budget overrides location if the budget is very low
-        if (budget <= 10) recommendation = 'Budget-friendly options like food trucks or grab-and-go snacks.';
-
-        // Food type overrides location and budget
-        if (foodType === 'comfort') recommendation = 'Comfort food options like pizza or burgers.';
-        if (foodType === 'healthy') recommendation = 'Healthy bowls and salads are perfect for your mood.';
-        if (foodType === 'international') recommendation = 'Explore international cuisines like sushi or tacos.';
-        if (foodType === 'sweet') recommendation = 'Don’t forget the desserts at Trottier or McLennan!';
-
-        // Eating time considerations
-        if (eatingTime <= 10) recommendation = 'Grab quick bites like a sandwich or pre-packed snacks.';
-        if (eatingTime > 10 && eatingTime <= 20) recommendation = 'Try fast food or quick-service meals nearby.';
-        if (eatingTime > 20 && eatingTime <= 30) recommendation = 'You have time for a sit-down meal at Gerts Cafe.';
-        if (eatingTime > 30) recommendation = 'Enjoy a relaxed, full-course meal at a restaurant near campus.';
-
+        const budget = scores.find((score) => typeof score === "number" && score <= 50);
+        const foodType = scores.find((score) =>
+            ["comfort", "healthy", "international", "sweet"].includes(score)
+        );
+        const mood = scores.find((score) =>
+            ["adventurous", "relaxed", "indulgent", "efficient"].includes(score)
+        );
+        const location = scores.find((score) =>
+            ["McIntyre", "McLennan", "Trottier", "Burnside"].includes(score)
+        );
+        const eatingTime = scores.find((score) => typeof score === "number" && score >= 10);
+    
+        let recommendation = "Here’s what we recommend based on your preferences:\n";
+    
+        // Add recommendations for each category
+        if (location === "McIntyre") {
+            recommendation += "📍 Visit the McIntyre Cafe for quick and easy bites.\n";
+        } else if (location === "McLennan") {
+            recommendation += "📍 McLennan-Redpath Cafe has snacks and coffee perfect for a study break.\n";
+        } else if (location === "Trottier") {
+            recommendation += "📍 Trottier Cafe offers great pastry and meal options.\n";
+        } else if (location === "Burnside") {
+            recommendation += "📍 Burnside Cafe is ideal for a peaceful meal or coffee.\n";
+        }
+    
+        if (budget <= 10) {
+            recommendation += "💸 Budget-friendly options include food trucks or grab-and-go snacks.\n";
+        } else if (budget > 10 && budget <= 20) {
+            recommendation += "💸 Affordable meals like sandwiches or simple bowls are great.\n";
+        } else if (budget > 20 && budget <= 50) {
+            recommendation += "💸 You can enjoy slightly premium meals at nearby restaurants.\n";
+        } else {
+            recommendation += "💸 Treat yourself to gourmet dining or a full-course meal.\n";
+        }
+    
+        if (foodType === "comfort") {
+            recommendation += "🍔 Comfort food like pizza or burgers is perfect for today.\n";
+        } else if (foodType === "healthy") {
+            recommendation += "🥗 Healthy options like salads and bowls are a great choice.\n";
+        } else if (foodType === "international") {
+            recommendation += "🍣 Try international cuisines like sushi or tacos.\n";
+        } else if (foodType === "sweet") {
+            recommendation += "🍩 Don’t forget the desserts at Trottier or McLennan!\n";
+        }
+    
+        if (mood === "adventurous") {
+            recommendation += "🌟 Explore new cuisines or fusion dishes for an exciting experience.\n";
+        } else if (mood === "relaxed") {
+            recommendation += "🛋️ A cozy cafe or quiet spot would suit your mood.\n";
+        } else if (mood === "indulgent") {
+            recommendation += "🎉 Indulge in decadent treats or high-quality meals.\n";
+        } else if (mood === "efficient") {
+            recommendation += "⏳ Quick-service options will help you save time.\n";
+        }
+    
+        if (eatingTime <= 10) {
+            recommendation += "⏱️ **MajesThé**: Perfect for a quick bubble tea or snack.\n";
+        } else if (eatingTime > 10 && eatingTime <= 20) {
+            recommendation += "⏱️ **Nouilles Zhonghua**: Enjoy fast and delicious Chinese noodles.\n";
+        } else if (eatingTime > 20 && eatingTime <= 30) {
+            recommendation += "⏱️ **Japote**: Savor a sit-down Japanese meal within your time frame.\n";
+        } else if (eatingTime > 30) {
+            recommendation += "⏱️ **Eaton Centre Food Court**: Explore a variety of cuisines at a relaxed pace.\n";
+        }
+    
         return recommendation;
     };
 
